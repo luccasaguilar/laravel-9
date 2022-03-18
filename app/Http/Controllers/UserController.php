@@ -14,6 +14,23 @@ class UserController extends Controller
     }
 
     public function show($id) {
-        dd('users.show', $id);
+        //$user = User::where('id', $id)->first();
+        if (!$user = User::find($id))
+            return redirect()->route('users.index');
+
+        return view('users.show', compact('user'));
+    }
+
+    public function create() {
+        return view('users.create');
+    }
+
+    public function store(Request $request){
+        $data = $request->all();
+        $data['password'] = bcrypt($request->password);
+
+        User::create($data);
+
+        return redirect()->route('users.index');
     }
 }
