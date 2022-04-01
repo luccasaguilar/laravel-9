@@ -12,4 +12,10 @@
 
 </ul>
 
+<form action="{{route('users.destroy',$user->id)}}" method="POST">
+    @method('DELETE')
+    @csrf
+    <button type="submit">Deletar</button>
+</form>
+
 @endsection
