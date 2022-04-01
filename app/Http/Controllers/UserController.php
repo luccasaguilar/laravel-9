@@ -14,15 +14,19 @@ class UserController extends Controller
         return view('users.index', compact('users'));
     }*/
 
-    public function index(Request $request) {
-        $search = $request->search;
+    protected $model;
 
-        $users = User::where(function ($query) use ($search) {
-            if ($search) {
-                $query->where('name', 'LIKE', "%{$search}%");
-                $query->orWhere('email', 'LIKE', "%{$search}%");
-            }
-        })->get();
+    public function __construct(User $user)
+    {
+        $this->model = $user;
+    }
+
+    public function index(Request $request) {
+        //$search = $request->search;
+
+        $users = User::getUsers(
+            search: $request->search ?? null 
+        );
         return view('users.index', compact('users'));
     }
 
